@@ -1,0 +1,42 @@
+[package]
+name = "canvas-instructure-graph"
+version = "0.1.0"
+authors = ["Logan Barnett <logustus@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+# Please document new dependencies as they are added. Prefer exact versrions,
+# which we can increment once the program has been tested upon the new version.
+[dependencies]
+# Clap handles CLI arguments.
+clap = { version = "3.0.0-rc.4", features = ["derive"] }
+# Allow us to increase verbosity with extra "-v"s, ala ssh.
+clap-verbosity-flag = "0.3.2"
+# Use futures to block on async operations.
+futures = "0.3.18"
+# Included just so we can reference the Error type from Command's Output.
+futures-io = "0.3.18"
+# Have static references execute at runtime in order to be intialized. I used
+# this in jj but I'm not sure why.
+lazy_static = "1.4.0"
+# Write stuff to a log using various log levels, to allow increased verbosity
+# depending on program usage.
+log = "0.4.14"
+# Plot graphs.
+plotters = "0.3.1"
+# Make HTTP requests with ease.
+reqwest = { version = "0.11.7", features = ["blocking", "json", "stream" ] }
+# Give us perl-style regular expressions.
+regex = "1.5.4"
+# Give us the ability to serialize and derserialize structures.
+serde = { version = "1.0.131", features = ["derive"] }
+# Add JSON support to serde - primarily for HTTP API consumption.
+serde_json = "1.0.59"
+# Allows us to easily serialize and deserialize serde supported structures.
+serdeconv = "0.2.1"
+# Logs should be written to stderr so meaningful output and logs are cleanly
+# separated.
+stderrlog = "0.5.1"
+# Depend upon tokio so we can use block_on I guess.
+tokio = { version = "1.5.0", features = ["full"] }
