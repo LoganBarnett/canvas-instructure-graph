@@ -9,7 +9,7 @@ use crate::logging;
     name = "canvas-instructure-graph",
     about = "Create a graph from Instructure's Canvas HTTP API.",
 )]
-#[clap(setting = clap::AppSettings::ColoredHelp)]
+#[clap()]
 // Without a structopt declaration, the argument is positional.
 pub struct CliInput {
     #[clap(short = 'a', long)]

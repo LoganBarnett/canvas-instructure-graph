@@ -9,6 +9,9 @@ edition = "2018"
 # Please document new dependencies as they are added. Prefer exact versrions,
 # which we can increment once the program has been tested upon the new version.
 [dependencies]
+# Chrono used for doing Date/time comparisons from timestamps from the Canvas
+# API.
+chrono = { features = ["serde"], verison = "0.4.19" }
 # Clap handles CLI arguments.
 clap = { version = "3.0.0-rc.4", features = ["derive"] }
 # Allow us to increase verbosity with extra "-v"s, ala ssh.
