@@ -1,6 +1,7 @@
 // Needed to make future magic work, I guess.
 use futures::TryFutureExt;
 use reqwest;
+use serde::{Deserialize, Serialize};
 
 use crate::cli;
 use crate::error;
@@ -16,6 +17,18 @@ pub struct BufferedResponse {
     pub text: String,
 }
 
+#[derive(Debug, Deserialize, Serialize)]
+pub struct CanvasErrorResponse {
+    pub errors: Vec<CanvasError>,
+    pub error_report_id: u64,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct CanvasError {
+    pub message: String,
+    pub error_code: String,
+}
+
 /// Make a generic request and deserialize the response.
 pub async fn request<'a, A: serde::de::DeserializeOwned>(
     config: &'a cli::CliValid,
@@ -27,8 +40,18 @@ pub async fn request<'a, A: serde::de::DeserializeOwned>(
         method,
         url,
     ).await?;
-    serde_json::from_str::<A>(&buffered_response.text)
-        .map_err(error::AppError::CanvasDeserializeError)
+    // If there is a server error, there should be an accompanying payload we
+    // can inspect.
+    if buffered_response.status.as_u16() < 400 {
+        serde_json::from_str::<A>(&buffered_response.text)
+            .map_err(error::AppError::CanvasDeserializeError)
+    } else {
+        let error = serde_json::from_str::<CanvasErrorResponse>(
+            &buffered_response.text,
+        )
+            .map_err(error::AppError::CanvasDeserializeError)?;
+        Err(error::AppError::CanvasServerError(error))
+    }
 }
 
 /// Make a generic request to the Canvas API using the auth token.

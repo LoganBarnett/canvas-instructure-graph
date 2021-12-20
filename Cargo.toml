@@ -11,7 +11,7 @@ edition = "2018"
 [dependencies]
 # Chrono used for doing Date/time comparisons from timestamps from the Canvas
 # API.
-chrono = { features = ["serde"], verison = "0.4.19" }
+chrono = { features = ["serde"], version = "0.4.19" }
 # Clap handles CLI arguments.
 clap = { version = "3.0.0-rc.4", features = ["derive"] }
 # Allow us to increase verbosity with extra "-v"s, ala ssh.
@@ -26,6 +26,8 @@ lazy_static = "1.4.0"
 # Write stuff to a log using various log levels, to allow increased verbosity
 # depending on program usage.
 log = "0.4.14"
+# Avoid making useless closures.
+partial_application = "0.2.1"
 # Plot graphs.
 plotters = "0.3.1"
 # Make HTTP requests with ease.

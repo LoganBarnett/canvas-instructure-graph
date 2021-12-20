@@ -1,3 +1,4 @@
+use crate::http;
 
 #[derive(Debug)]
 pub enum AppError {
@@ -13,5 +14,6 @@ pub enum AppError {
     #[allow(dead_code)]
     CanvasHeaderError(reqwest::header::ToStrError),
     CanvasRequestError(reqwest::Error),
+    CanvasServerError(http::CanvasErrorResponse),
     LoggingInitializationError(log::SetLoggerError),
 }
